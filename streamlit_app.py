@@ -2,13 +2,11 @@ import streamlit as st
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
-import base64
-
 
 # SonarQube details
 SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
-PROJECT_KEY = "40267769:ielts:python"  # Your project key
-AUTH_TOKEN = "squ_deb85d39f54c5751b1c2fb04e2ec87e5490c903f"  # Your SonarQube token
+PROJECT_KEY = "31784208:ielts:python"  # Your project key
+AUTH_TOKEN = "squ_33befd7029c81abeb888031cb46113c0df8b2872"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
 def fetch_sonar_metrics(metric_keys):
@@ -20,15 +18,9 @@ def fetch_sonar_metrics(metric_keys):
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
     }
-    # auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
-    auth_string = f"{AUTH_TOKEN}:"  # Token as username, password is bl  
-
-    encoded_auth = base64.b64encode(auth_string.encode()).decode()  # B  
-
-    headers = {                                                          
-    "Authorization": f"Basic {encoded_auth}"  # Add the Basic Auth   
-    }        
-    response = requests.get(url, params=params, headers=headers)
+    auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
+    st.write(auth)
+    response = requests.get(url, params=params, auth=auth)
 
     if response.status_code == 200:
         data = response.json()
