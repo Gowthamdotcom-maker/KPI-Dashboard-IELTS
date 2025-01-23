@@ -15,7 +15,7 @@ def fetch_sonar_metrics(metric_keys):
     """
     Fetches metrics from SonarQube for the given metric keys.
     """
-    url = f"{SONARQUBE_URL}/api/measures/component"
+    url = "https://sonarqube.idp.com/api/measures/component?component=31784208:ielts:python&metricKeys=coverage"
     params = {
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
