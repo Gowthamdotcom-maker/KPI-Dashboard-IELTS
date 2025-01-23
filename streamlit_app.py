@@ -7,7 +7,7 @@ import base64
 
 # SonarQube details
 SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
-PROJECT_KEY = "31784208:ielts:python"  # Your project key
+PROJECT_KEY = "40267769:ielts:python"  # Your project key
 AUTH_TOKEN = "squ_deb85d39f54c5751b1c2fb04e2ec87e5490c903f"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
