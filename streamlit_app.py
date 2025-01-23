@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
+import base64
+
 
 # SonarQube details
 SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
