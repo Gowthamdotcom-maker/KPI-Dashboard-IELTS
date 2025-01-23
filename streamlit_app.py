@@ -12,7 +12,7 @@ def fetch_sonar_metrics(metric_keys):
     url = f"{SONARQUBE_URL}/api/measures/component"
     params = {
         "component": PROJECT_KEY,
-        "metricKeys": metric_keys
+        "metricKeys": coverage
     }
 
     # Manually construct the Authorization header
