@@ -3,13 +3,16 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Set your SonarQube details
+# SonarQube details
 SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
-PROJECT_KEY = "31784208:ielts:python"
-AUTH_TOKEN = "squ_33befd7029c81abeb888031cb46113c0df8b2872"
+PROJECT_KEY = "31784208:ielts:python"  # Your project key
+AUTH_TOKEN = "squ_33befd7029c81abeb888031cb46113c0df8b2872"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
 def fetch_sonar_metrics(metric_keys):
+    """
+    Fetches metrics from SonarQube for the given metric keys.
+    """
     url = f"{SONARQUBE_URL}/api/measures/component"
     params = {
         "component": PROJECT_KEY,
@@ -26,7 +29,7 @@ def fetch_sonar_metrics(metric_keys):
         st.error(f"Failed to fetch data from SonarQube (Status: {response.status_code})")
         return {}
 
-# Title and Sidebar
+# Streamlit App
 st.title("KPI Dashboard - SonarQube Metrics")
 st.sidebar.title("Navigation")
 section = st.sidebar.radio("Select a Section", ["Overview", "Detailed Metrics"])
@@ -38,12 +41,13 @@ if section == "Overview":
 
     # Fetch data
     metrics = fetch_sonar_metrics("coverage,code_smells,bugs,vulnerabilities")
-    
+
     # Display KPIs
-    st.metric("Test Coverage (%)", metrics.get("coverage", "N/A"))
-    st.metric("Code Smells", metrics.get("code_smells", "N/A"))
-    st.metric("Bugs", metrics.get("bugs", "N/A"))
-    st.metric("Vulnerabilities", metrics.get("vulnerabilities", "N/A"))
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Test Coverage (%)", metrics.get("coverage", "N/A"))
+    col2.metric("Code Smells", metrics.get("code_smells", "N/A"))
+    col3.metric("Bugs", metrics.get("bugs", "N/A"))
+    col4.metric("Vulnerabilities", metrics.get("vulnerabilities", "N/A"))
 
 # Detailed Metrics Section
 elif section == "Detailed Metrics":
