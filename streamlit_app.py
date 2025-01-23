@@ -65,52 +65,52 @@ def fetch_sonar_metrics(metric_keys):
 #         st.error(f"Failed to fetch data from SonarQube (Status: {response.status_code})")
 #         return {}
 
-# # Streamlit App
-# st.title("KPI Dashboard - SonarQube Metrics")
-# st.sidebar.title("Navigation")
-# section = st.sidebar.radio("Select a Section", ["Overview", "Detailed Metrics"])
+# Streamlit App
+st.title("KPI Dashboard - SonarQube Metrics")
+st.sidebar.title("Navigation")
+section = st.sidebar.radio("Select a Section", ["Overview", "Detailed Metrics"])
 
-# # Overview Section
-# if section == "Overview":
-#     st.header("Overview")
-#     st.write("Key metrics from SonarQube for the project.")
+# Overview Section
+if section == "Overview":
+    st.header("Overview")
+    st.write("Key metrics from SonarQube for the project.")
 
-#     # Fetch data
-#     metrics = fetch_sonar_metrics("coverage,code_smells,bugs,vulnerabilities")
+    # Fetch data
+    metrics = fetch_sonar_metrics("coverage,code_smells,bugs,vulnerabilities")
 
-#     # Display KPIs
-#     col1, col2, col3, col4 = st.columns(4)
-#     col1.metric("Test Coverage (%)", metrics.get("coverage", "N/A"))
-#     col2.metric("Code Smells", metrics.get("code_smells", "N/A"))
-#     col3.metric("Bugs", metrics.get("bugs", "N/A"))
-#     col4.metric("Vulnerabilities", metrics.get("vulnerabilities", "N/A"))
+    # Display KPIs
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Test Coverage (%)", metrics.get("coverage", "N/A"))
+    col2.metric("Code Smells", metrics.get("code_smells", "N/A"))
+    col3.metric("Bugs", metrics.get("bugs", "N/A"))
+    col4.metric("Vulnerabilities", metrics.get("vulnerabilities", "N/A"))
 
-# # Detailed Metrics Section
-# elif section == "Detailed Metrics":
-#     st.header("Detailed Metrics")
-#     st.write("Detailed breakdown of SonarQube metrics.")
+# Detailed Metrics Section
+elif section == "Detailed Metrics":
+    st.header("Detailed Metrics")
+    st.write("Detailed breakdown of SonarQube metrics.")
 
-#     # Fetch data
-#     metrics = fetch_sonar_metrics("coverage,code_smells,bugs,vulnerabilities")
-#     df = pd.DataFrame([
-#         {"Metric": "Coverage (%)", "Value": metrics.get("coverage", "N/A")},
-#         {"Metric": "Code Smells", "Value": metrics.get("code_smells", "N/A")},
-#         {"Metric": "Bugs", "Value": metrics.get("bugs", "N/A")},
-#         {"Metric": "Vulnerabilities", "Value": metrics.get("vulnerabilities", "N/A")},
-#     ])
+    # Fetch data
+    metrics = fetch_sonar_metrics("coverage,code_smells,bugs,vulnerabilities")
+    df = pd.DataFrame([
+        {"Metric": "Coverage (%)", "Value": metrics.get("coverage", "N/A")},
+        {"Metric": "Code Smells", "Value": metrics.get("code_smells", "N/A")},
+        {"Metric": "Bugs", "Value": metrics.get("bugs", "N/A")},
+        {"Metric": "Vulnerabilities", "Value": metrics.get("vulnerabilities", "N/A")},
+    ])
 
-#     # Display table
-#     st.table(df)
+    # Display table
+    st.table(df)
 
-#     # Pie chart for Code Smells, Bugs, and Vulnerabilities
-#     if "code_smells" in metrics and "bugs" in metrics and "vulnerabilities" in metrics:
-#         labels = ["Code Smells", "Bugs", "Vulnerabilities"]
-#         values = [
-#             int(metrics["code_smells"]),
-#             int(metrics["bugs"]),
-#             int(metrics["vulnerabilities"])
-#         ]
-#         fig, ax = plt.subplots()
-#         ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
-#         ax.axis("equal")  # Equal aspect ratio ensures the pie chart is circular.
-#         st.pyplot(fig)
+    # Pie chart for Code Smells, Bugs, and Vulnerabilities
+    if "code_smells" in metrics and "bugs" in metrics and "vulnerabilities" in metrics:
+        labels = ["Code Smells", "Bugs", "Vulnerabilities"]
+        values = [
+            int(metrics["code_smells"]),
+            int(metrics["bugs"]),
+            int(metrics["vulnerabilities"])
+        ]
+        fig, ax = plt.subplots()
+        ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
+        ax.axis("equal")  # Equal aspect ratio ensures the pie chart is circular.
+        st.pyplot(fig)
