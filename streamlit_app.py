@@ -19,7 +19,14 @@ def fetch_sonar_metrics(metric_keys):
         "metricKeys": metric_keys
     }
     # auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
-    response = requests.get(url, params=params, auth=AUTH_TOKEN)
+    auth_string = f"{AUTH_TOKEN}:"  # Token as username, password is bl  
+
+    encoded_auth = base64.b64encode(auth_string.encode()).decode()  # B  
+
+    headers = {                                                          
+    "Authorization": f"Basic {encoded_auth}"  # Add the Basic Auth   
+    }        
+    response = requests.get(url, params=params, headers=headers)
 
     if response.status_code == 200:
         data = response.json()
