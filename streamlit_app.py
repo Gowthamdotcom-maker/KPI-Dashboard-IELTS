@@ -6,28 +6,55 @@ import matplotlib.pyplot as plt
 # SonarQube details
 SONARQUBE_URL = "http://sonarqube.idp.com"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
-# AUTH_TOKEN = "Basic c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6"  # Your SonarQube token
-
-# Function to fetch metrics from SonarQube
+AUTH_TOKEN = "squ_33befd7029c81abeb888031cb46113c0df8b2872"  # Your SonarQube token
 def fetch_sonar_metrics(metric_keys):
-    """
-    Fetches metrics from SonarQube for the given metric keys.
-    """
     url = f"{SONARQUBE_URL}/api/measures/component"
     params = {
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
     }
-    auth = 'Basic c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6'  # Basic Auth: Token as username, password blank
-    response = requests.get(url, params=params, auth=auth)
+    auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
 
-    if response.status_code == 200:
+    try:
+        # Debug: Print request details
+        st.write(f"Request URL: {url}")
+        st.write(f"Request Params: {params}")
+        st.write(f"Auth: {auth}")
+
+        response = requests.get(url, params=params, auth=auth)
+
+        # Debug: Print response details
+        st.write(f"Response Status Code: {response.status_code}")
+        st.write(f"Response Text: {response.text}")
+
+        response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()
         measures = data.get("component", {}).get("measures", [])
         return {m["metric"]: m["value"] for m in measures}
-    else:
-        st.error(f"Failed to fetch data from SonarQube (Status: {response.status_code})")
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching metrics: {e}")
         return {}
+
+# Function to fetch metrics from SonarQube
+# def fetch_sonar_metrics(metric_keys):
+#     """
+#     Fetches metrics from SonarQube for the given metric keys.
+#     """
+#     url = f"{SONARQUBE_URL}/api/measures/component"
+#     params = {
+#         "component": PROJECT_KEY,
+#         "metricKeys": metric_keys
+#     }
+#     auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
+#     response = requests.get(url, params=params, auth=auth)
+
+#     if response.status_code == 200:
+#         data = response.json()
+#         measures = data.get("component", {}).get("measures", [])
+#         return {m["metric"]: m["value"] for m in measures}
+#     else:
+#         st.error(f"Failed to fetch data from SonarQube (Status: {response.status_code})")
+#         return {}
 
 # Streamlit App
 st.title("KPI Dashboard - SonarQube Metrics")
