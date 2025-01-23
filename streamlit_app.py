@@ -18,7 +18,7 @@ def fetch_sonar_metrics(metric_keys):
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
     }
-    auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
+    auth = (AUTH_TOKEN)  # Basic Auth: Token as username, password blank
     st.write(auth)
     response = requests.get(url, params=params, auth=auth)
 
