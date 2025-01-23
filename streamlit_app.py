@@ -8,14 +8,14 @@ import base64
 # SonarQube details
 SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
-AUTH_TOKEN = "Basic c3F1X2RlYjg1ZDM5ZjU0YzU3NTFiMWMyZmIwNGUyZWM4N2U1NDkwYzkwM2Y6"  # Your SonarQube token
+AUTH_TOKEN = "squ_deb85d39f54c5751b1c2fb04e2ec87e5490c903f"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
 def fetch_sonar_metrics(metric_keys):
     """
     Fetches metrics from SonarQube for the given metric keys.
     """
-    url = "https://sonarqube.idp.com/api/measures/component?component=31784208:ielts:python&metricKeys=coverage"
+    url = f"{SONARQUBE_URL}/api/measures/component"
     params = {
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
