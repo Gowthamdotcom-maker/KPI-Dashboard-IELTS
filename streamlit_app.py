@@ -11,7 +11,7 @@ def fetch_sonar_metrics(metric_keys):
     url = "https://sonarqube.idp.com/api/measures/component?component=31784208:ielts:python&metricKeys=coverage"
     params = {
         "component": PROJECT_KEY,
-        "metricKeys": coverage,
+        "metricKeys": coverage
     }
     auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
 
