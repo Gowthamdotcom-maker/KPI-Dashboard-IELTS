@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # SonarQube details
 SONARQUBE_URL = "http://sonarqube.idp.com"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
-AUTH_TOKEN = "c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6"  # Your SonarQube token
+AUTH_TOKEN = "Basic c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
 def fetch_sonar_metrics(metric_keys):
@@ -18,7 +18,7 @@ def fetch_sonar_metrics(metric_keys):
         "component": PROJECT_KEY,
         "metricKeys": metric_keys
     }
-    auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
+    auth = (AUTH_TOKEN)  # Basic Auth: Token as username, password blank
     response = requests.get(url, params=params, auth=auth)
 
     if response.status_code == 200:
