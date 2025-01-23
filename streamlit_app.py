@@ -8,10 +8,10 @@ SONARQUBE_URL = "http://sonarqube.idp.com"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
 AUTH_TOKEN = "Basic c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6"  # Your SonarQube token
 def fetch_sonar_metrics(metric_keys):
-    url = f"{SONARQUBE_URL}/api/measures/component"
+    url = "https://sonarqube.idp.com/api/measures/component?component=31784208:ielts:python&metricKeys=coverage"
     params = {
         "component": PROJECT_KEY,
-        "metricKeys": metric_keys
+        "metricKeys": coverage,
     }
     auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
 
