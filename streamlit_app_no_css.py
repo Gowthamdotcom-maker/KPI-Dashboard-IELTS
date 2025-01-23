@@ -26,9 +26,9 @@ df_reshaped = pd.read_csv('data/us-population-2010-2019-reshaped.csv')
 with st.sidebar:
     st.title('KPI Dashboard IELTS')
     
-    year_list = list(df_reshaped.year.unique())[::-1]
+    year_list = ['Unit test Coverage', 'Snyk', 'JIRA']
     
-    selected_year = st.selectbox('Select a year', year_list)
+    selected_year = st.selectbox('Select a KPI', year_list)
     df_selected_year = df_reshaped[df_reshaped.year == selected_year]
     df_selected_year_sorted = df_selected_year.sort_values(by="population", ascending=False)
 
