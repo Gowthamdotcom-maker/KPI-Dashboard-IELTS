@@ -1,44 +1,32 @@
-import base64
-import requests
 import streamlit as st
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # SonarQube details
-SONARQUBE_URL = "http://sonarqube.idp.com"  # Replace with your SonarQube URL
+SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
-AUTH_TOKEN = "squ_33befd7029c81abeb888031cb46113c0df8b2872"  # Your SonarQube token
+AUTH_TOKEN = "Basic c3F1X2RlYjg1ZDM5ZjU0YzU3NTFiMWMyZmIwNGUyZWM4N2U1NDkwYzkwM2Y6"  # Your SonarQube token
 
 # Function to fetch metrics from SonarQube
 def fetch_sonar_metrics(metric_keys):
+    """
+    Fetches metrics from SonarQube for the given metric keys.
+    """
     url = f"{SONARQUBE_URL}/api/measures/component"
     params = {
         "component": PROJECT_KEY,
-        "metricKeys": "coverage"
+        "metricKeys": metric_keys
     }
+    # auth = (AUTH_TOKEN, "")  # Basic Auth: Token as username, password blank
+    response = requests.get(url, params=params, auth=AUTH_TOKEN)
 
-    # Manually construct the Authorization header
-    auth_string = f"{AUTH_TOKEN}:"  # Token as username, password is blank
-    encoded_auth = base64.b64encode(auth_string.encode()).decode()  # Base64 encode
-    headers = {
-        "Authorization": f"Basic {encoded_auth}"  # Add the Basic Auth header
-    }
-
-    # Debug: Print the Authorization header
-    st.write(f"Authorization Header: {headers['Authorization']}")
-
-    try:
-        # Make the request
-        response = requests.get(url, params=params, headers=headers)
-
-        # Debug: Print response details
-        st.write(f"Response Status Code: {response.status_code}")
-        st.write(f"Response Text: {response.text}")
-
-        response.raise_for_status()  # Raise an error for bad responses (4xx and 5xx)
+    if response.status_code == 200:
         data = response.json()
         measures = data.get("component", {}).get("measures", [])
         return {m["metric"]: m["value"] for m in measures}
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching metrics: {e}")
+    else:
+        st.error(f"Failed to fetch data from SonarQube (Status: {response.status_code})")
         return {}
 
 # Streamlit App
@@ -77,3 +65,16 @@ elif section == "Detailed Metrics":
 
     # Display table
     st.table(df)
+
+    # Pie chart for Code Smells, Bugs, and Vulnerabilities
+    if "code_smells" in metrics and "bugs" in metrics and "vulnerabilities" in metrics:
+        labels = ["Code Smells", "Bugs", "Vulnerabilities"]
+        values = [
+            int(metrics["code_smells"]),
+            int(metrics["bugs"]),
+            int(metrics["vulnerabilities"])
+        ]
+        fig, ax = plt.subplots()
+        ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
+        ax.axis("equal")  # Equal aspect ratio ensures the pie chart is circular.
+        st.pyplot(fig)
