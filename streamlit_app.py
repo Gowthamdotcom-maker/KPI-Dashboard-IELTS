@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # SonarQube details
-SONARQUBE_URL = "http://<your-sonarqube-url>"  # Replace with your SonarQube URL
+SONARQUBE_URL = "http://sonarqube.idp.com"  # Replace with your SonarQube URL
 PROJECT_KEY = "31784208:ielts:python"  # Your project key
 AUTH_TOKEN = "Basic c3F1XzMzYmVmZDcwMjljODFhYmViODg4MDMxY2I0NjExM2MwZGY4YjI4NzI6"  # Your SonarQube token
 
